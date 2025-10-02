@@ -28,7 +28,7 @@ const pricingData: Record<
     plans: [
       {
         name: "🌱 Starter",
-        price: "Rp500K - Rp1Jt/bulan",
+        price: "Rp500K - Rp1Jt",
         description: "Untuk UMKM pemula yang mau mulai jualan via WhatsApp.",
         features: [
           "Auto-Reply & Greeting Otomatis",
