@@ -1,10 +1,11 @@
+// src/app/page.tsx
 "use client";
 
-import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { ServicesSection } from "@/components/services-section";
 import { WhyChooseSection } from "@/components/why-choose-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
+import { FeaturedProductsSection } from "@/components/FeaturedProductsSection";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <ServicesSection />
+        <FeaturedProductsSection /> 
         <WhyChooseSection />
         <TestimonialsSection />
       </main>

@@ -5,8 +5,8 @@
 
 ## 📌 Overview
 
-WebBotPro is a modern digital solutions platform that integrates **React.js** , empowering businesses to scale online.  
-With a focus on automation, digital marketing, and business intelligence, it provides an all-in-one toolkit for SMEs and enterprises.
+WebBotPro is a modern digital solutions platform that integrates React.js and Midtrans Payment Gateway (Indonesia), empowering businesses to scale online.
+With a focus on automation, digital marketing, payment solutions, and business intelligence, it provides an all-in-one toolkit for SMEs and enterprises to grow faster and more efficiently..
 
 ## Built With
 

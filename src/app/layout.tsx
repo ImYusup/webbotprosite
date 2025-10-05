@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import type React from "react";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -5,7 +6,10 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import Script from "next/script"; // ✅ inject Midtrans Snap.js
+import CartSidebar from "@/components/CartSidebar";
 
+// Fonts
 const geist = Geist({
   subsets: ["latin"],
   display: "swap",
@@ -18,12 +22,13 @@ const manrope = Manrope({
   variable: "--font-manrope",
 });
 
+// Metadata SEO & Social
 export const metadata: Metadata = {
-  title: "WebBotPro - WhatsApp Automation, Digital Marketing & Business Intelligence",
+  title:
+    "WebBotPro - WhatsApp Automation, Digital Marketing & Business Intelligence",
   description:
     "WebBotPro membantu bisnis dengan WhatsApp Commerce Automation, Digital Presence & Marketing, serta Data & Business Intelligence untuk UMKM & perusahaan.",
   keywords: [
-    // WhatsApp
     "WhatsApp Commerce Automation",
     "WhatsApp Automation",
     "Bisnis Online",
@@ -35,8 +40,6 @@ export const metadata: Metadata = {
     "Ecommerce",
     "Google Sheets Integration",
     "Invoice Automation",
-
-    // Digital Marketing
     "Digital Marketing",
     "Jasa Website",
     "Sosial Media Management",
@@ -47,8 +50,6 @@ export const metadata: Metadata = {
     "Online Business",
     "Jasa Digital Marketing",
     "Grow Your Business",
-
-    // Data & BI
     "Business Intelligence",
     "Data Driven",
     "Power BI",
@@ -91,16 +92,40 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+  const isProduction = process.env.NODE_ENV === "production";
+  const midtransClientKey = isProduction
+    ? process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY
+    : process.env.NEXT_PUBLIC_MIDTRANS_SANDBOX_CLIENT_KEY;
+
   return (
-    <html lang="id" className={`${geist.variable} ${manrope.variable} antialiased`}>
+    <html
+      lang="id"
+      className={`${geist.variable} ${manrope.variable} antialiased`}
+    >
       <body className="font-sans min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+
+        {/* ✅ Sidebar Cart selalu available */}
+        <CartSidebar />
+
+        {/* ✅ Midtrans Snap.js auto-switch Sandbox / Production */}
+        <Script
+          src={
+            isProduction
+              ? "https://app.midtrans.com/snap/snap.js"
+              : "https://app.sandbox.midtrans.com/snap/snap.js"
+          }
+          data-client-key={midtransClientKey}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
 }
+
+
+
+

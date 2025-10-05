@@ -21,6 +21,12 @@ export function Header() {
           <Link href="/#services" className="text-foreground font-bold text-lg hover:text-primary transition-colors">
             Services
           </Link>
+          <Link
+            href="/#products"
+            className="text-foreground font-bold text-lg hover:text-primary transition-colors"
+          >
+            Products
+          </Link>
           <Link href="/#why-choose" className="text-foreground font-bold text-lg hover:text-primary transition-colors">
             Why Choose Us
           </Link>
@@ -44,6 +50,12 @@ export function Header() {
           <nav className="container mx-auto px-4 py-4 space-y-4">
             <Link href="/#services" className="block text-foreground font-bold text-lg hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>
               Services
+            </Link>
+            <Link
+              href="/#products"
+              className="text-foreground font-bold text-lg hover:text-primary transition-colors"
+            >
+              Products
             </Link>
             <Link href="/#why-choose" className="block text-foreground font-bold text-lg hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>
               Why Choose Us
