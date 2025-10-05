@@ -193,6 +193,44 @@ export const products: Product[] = [
       "/images/powerbi/powerbi3.png",
     ],
     videoUrl: "https://drive.google.com/file/d/1Jrsprlu-2eFY-4o0x57vqdK_QplVbioU/preview",
-  }
-
+  },
+  {
+    id: "business-website",
+    name: "Business Website (SMB)",
+    price: 3500000,
+    discountPrice: 2500000,
+    currency: "IDR",
+    description:
+      "Website bisnis modern dengan fitur pembayaran online.",
+    features: [
+      "Website modern responsif (desktop & mobile)",
+      "Integrasi payment gateway Indonesia",
+      "Sudah termasuk domain + hosting gratis langsung aktif",
+      "Cocok untuk Company Profile, toko kecil, hingga brand UMKM",
+    ],
+    benefits: [
+      "Tampilan bisnis lebih profesional",
+      "Brand lebih dipercaya pelanggan",
+      "Mudah ditemukan di Google",
+      "Cocok untuk UMKM, personal branding, dan startup",
+    ],
+    targetUsers: [
+      "UMKM yang butuh identitas digital",
+      "Perusahaan kecil & menengah",
+      "Personal branding / freelancer",
+      "Startup yang ingin tampil profesional",
+    ],
+    notes:
+      "Setelah order segera lakukan konsultasi untuk menentukan domain. Estimasi selesai 1–2 hari kerja.",
+    images: [
+      "/images/website/smb-webbotpro1.jpeg",
+      "/images/website/smb-webbotpro2.jpeg",
+      "/images/website/smb-webbotpro3.jpeg",
+      "/images/website/smb-webbotpro4.jpeg",
+      "/images/website/smb-webbotpro5.jpeg",
+      "/images/website/smb-webbotpro6.jpeg",
+    ],
+    videoUrl:
+      "https://drive.google.com/file/d/1R5hFxl36tW65e2FDfIPi3Et3INkrtGpq/preview",
+  },
 ];
