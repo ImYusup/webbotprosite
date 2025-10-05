@@ -8,8 +8,6 @@ export async function GET(req: NextRequest) {
   const id = url.searchParams.get("id");
   const auth = req.headers.get("Authorization");
 
-  console.log("🔍 Request Headers:", { id, auth, internalToken: INTERNAL_ACCESS_TOKEN });
-
   if (!id) {
     return new Response(JSON.stringify({ error: "missing_id" }), {
       status: 400,
@@ -18,7 +16,6 @@ export async function GET(req: NextRequest) {
   }
 
   if (!auth || auth !== `Bearer ${INTERNAL_ACCESS_TOKEN}`) {
-    console.warn("🚫 Unauthorized:", { expected: `Bearer ${INTERNAL_ACCESS_TOKEN}`, received: auth });
     return new Response(JSON.stringify({ error: "unauthorized" }), {
       status: 401,
       headers: { "Access-Control-Allow-Origin": "*" },

@@ -111,14 +111,10 @@ export default function RootLayout({
         {/* ✅ Sidebar Cart selalu available */}
         <CartSidebar />
 
-        {/* ✅ Midtrans Snap.js auto-switch Sandbox / Production */}
+        {/* ✅ Midtrans Snap.js always load Production */}
         <Script
-          src={
-            isProduction
-              ? "https://app.midtrans.com/snap/snap.js"
-              : "https://app.sandbox.midtrans.com/snap/snap.js"
-          }
-          data-client-key={midtransClientKey}
+          src="https://app.midtrans.com/snap/snap.js"
+          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
           strategy="afterInteractive"
         />
       </body>

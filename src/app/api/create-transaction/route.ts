@@ -5,16 +5,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const isProduction = process.env.NODE_ENV === "production";
-
     const snap = new Snap({
-      isProduction,
-      serverKey: isProduction
-        ? process.env.MIDTRANS_SERVER_KEY!
-        : process.env.MIDTRANS_SANDBOX_SERVER_KEY!,
-      clientKey: isProduction
-        ? process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY!
-        : process.env.NEXT_PUBLIC_MIDTRANS_SANDBOX_CLIENT_KEY!,
+      isProduction: true, // 🚀 selalu true (production)
+      serverKey: process.env.MIDTRANS_SERVER_KEY!,
+      clientKey: process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY!,
     });
 
     const parameter: any = {
@@ -23,8 +17,8 @@ export async function POST(req: Request) {
         gross_amount: body.amount,
       },
       customer_details: {
-        first_name: body.name,
-        email: body.email,
+        first_name: body.name || "Guest",
+        email: body.email || "guest@example.com",
       },
       item_details: [
         {
@@ -34,6 +28,9 @@ export async function POST(req: Request) {
           name: body.productName || "Sample Product",
         },
       ],
+      callbacks: {
+        finish: "https://webbotpro.site/payment/finish",
+      },
     };
 
     const transaction = await snap.createTransaction(parameter);
@@ -43,6 +40,7 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: any) {
+    console.error("❌ Midtrans error:", err);
     return new Response(
       JSON.stringify({ error: err.message || "Something went wrong" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

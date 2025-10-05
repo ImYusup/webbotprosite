@@ -25,7 +25,7 @@ export const products: Product[] = [
       "Kontrol arus kas bisnis kamu dengan ringkasan real-time yang dikirim langsung ke WhatsApp setiap hari.",
     features: [
       "Ringkasan harian, mingguan, dan bulanan otomatis",
-      "Notifikasi arus kas real-time: suIDRlus atau defisit",
+      "Notifikasi arus kas real-time: surplus dan defisit",
       "Mudah digunakan, cukup kirim pesan ke WhatsApp Bot",
     ],
     benefits: [

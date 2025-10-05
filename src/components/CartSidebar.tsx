@@ -1,10 +1,12 @@
-// src/components/CartSidebar.ts
+// src/components/CartSidebar.tsx
 "use client";
 
 import { useCart, CartItem } from "@/lib/cart-store";
+import { useState } from "react";
 
 export default function CartSidebar() {
   const { items, removeItem, clearCart, showCart, setShowCart } = useCart();
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
 
   if (!showCart) return null;
 
@@ -16,10 +18,16 @@ export default function CartSidebar() {
     }).format(num);
 
   const checkout = async () => {
+    if (loadingCheckout) return;
+    setLoadingCheckout(true);
+
     try {
       const payload = {
-        amount: items.reduce((sum: number, i: CartItem) => sum + i.price * i.quantity, 0),
-        name: "Guest", // bisa lu isi dari form user
+        amount: items.reduce(
+          (sum: number, i: CartItem) => sum + i.price * i.quantity,
+          0
+        ),
+        name: "Guest",
         email: "guest@example.com",
         productName: items.map((i) => i.title).join(", "),
       };
@@ -34,6 +42,7 @@ export default function CartSidebar() {
 
       if (!res.ok) {
         console.error("❌ Server error:", res.status, res.statusText);
+        setLoadingCheckout(false);
         return;
       }
 
@@ -42,42 +51,46 @@ export default function CartSidebar() {
 
       if (!data?.token) {
         console.error("❌ Missing transaction token:", data);
+        setLoadingCheckout(false);
         return;
       }
 
-      // 🔑 load snap.js
-      if (typeof window !== "undefined") {
-        // pastikan pakai clientKey sandbox/production sesuai env
-        const script = document.createElement("script");
-        script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
-        script.setAttribute("data-client-key", process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY!);
-        document.body.appendChild(script);
-
-        script.onload = () => {
-          // @ts-ignore
-          window.snap.pay(data.token, {
-            onSuccess: (result: any) => {
-              console.log("✅ Success:", result);
-              clearCart();
-            },
-            onPending: (result: any) => {
-              console.log("⏳ Pending:", result);
-            },
-            onError: (err: any) => {
-              console.error("❌ Error:", err);
-            },
-            onClose: () => {
-              console.warn("❌ User closed the popup without finishing payment");
-            },
-          });
-        };
+      // 🔑 Snap.js sudah dimuat dari layout.tsx
+      if (typeof window !== "undefined" && (window as any).snap) {
+        // @ts-ignore
+        window.snap.pay(data.token, {
+          onSuccess: (result: any) => {
+            console.log("✅ Success:", result);
+            clearCart();
+            setLoadingCheckout(false);
+          },
+          onPending: (result: any) => {
+            console.log("⏳ Pending:", result);
+            setLoadingCheckout(false);
+          },
+          onError: (err: any) => {
+            console.error("❌ Error:", err);
+            setLoadingCheckout(false);
+          },
+          onClose: () => {
+            console.warn("❌ User closed the popup without finishing payment");
+            setLoadingCheckout(false);
+          },
+        });
+      } else {
+        console.error("❌ Snap.js not loaded");
+        setLoadingCheckout(false);
       }
     } catch (err) {
       console.error("❌ Checkout failed:", err);
+      setLoadingCheckout(false);
     }
   };
 
-  const total = items.reduce((sum: number, i: CartItem) => sum + i.price * i.quantity, 0);
+  const total = items.reduce(
+    (sum: number, i: CartItem) => sum + i.price * i.quantity,
+    0
+  );
 
   return (
     <aside className="fixed right-0 top-0 w-[320px] h-full bg-white shadow-lg p-4 z-50">
@@ -97,7 +110,10 @@ export default function CartSidebar() {
             {items.map((item: CartItem) => (
               <li key={item.variantId} className="flex gap-3 items-center">
                 {item.image && (
-                  <img src={item.image} className="w-12 h-12 object-cover rounded" />
+                  <img
+                    src={item.image}
+                    className="w-12 h-12 object-cover rounded"
+                  />
                 )}
                 <div className="flex-1">
                   <p className="font-semibold">{item.title}</p>
@@ -118,9 +134,14 @@ export default function CartSidebar() {
             <p className="font-bold">Total: {formatRupiah(total)}</p>
             <button
               onClick={checkout}
-              className="mt-2 w-full bg-black text-white py-2 rounded hover:opacity-90"
+              disabled={loadingCheckout}
+              className={`mt-2 w-full py-2 rounded text-white ${
+                loadingCheckout
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-black hover:opacity-90"
+              }`}
             >
-              Checkout
+              {loadingCheckout ? "Memproses..." : "Checkout"}
             </button>
             <button
               onClick={clearCart}

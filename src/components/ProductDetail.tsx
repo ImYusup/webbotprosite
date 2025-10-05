@@ -6,15 +6,15 @@ import { useCart } from "@/lib/cart-store";
 
 type MediaNode =
   | {
-      __typename: "MediaImage";
-      id: string;
-      image: { url: string; altText?: string | null };
-    }
+    __typename: "MediaImage";
+    id: string;
+    image: { url: string; altText?: string | null };
+  }
   | {
-      __typename: "Video";
-      id: string;
-      sources: { url: string; mimeType?: string }[];
-    };
+    __typename: "Video";
+    id: string;
+    sources: { url: string; mimeType?: string }[];
+  };
 
 export default function ProductDetail({ product }: { product: any }) {
   const { addItem, setShowCart } = useCart();
@@ -30,12 +30,12 @@ export default function ProductDetail({ product }: { product: any }) {
 
     const vids = product?.videoUrl
       ? [
-          {
-            __typename: "Video" as const,
-            id: "vid-1",
-            sources: [{ url: product.videoUrl, mimeType: "video/mp4" }],
-          },
-        ]
+        {
+          __typename: "Video" as const,
+          id: "vid-1",
+          sources: [{ url: product.videoUrl, mimeType: "video/mp4" }],
+        },
+      ]
       : [];
 
     return vids.length > 0 ? [...vids, ...imgs] : imgs;
@@ -83,7 +83,12 @@ export default function ProductDetail({ product }: { product: any }) {
   };
 
   // 🔹 Checkout Handler (Midtrans)
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
+
   const handleCheckout = async () => {
+    if (loadingCheckout) return; // cegah double click
+    setLoadingCheckout(true);
+
     try {
       const payload = {
         amount: (product.discountPrice ?? product.price) * quantity,
@@ -103,16 +108,30 @@ export default function ProductDetail({ product }: { product: any }) {
       if (data?.token) {
         // @ts-ignore
         window.snap.pay(data.token, {
-          onSuccess: (res: any) => console.log("✅ Success:", res),
-          onPending: (res: any) => console.log("⏳ Pending:", res),
-          onError: (err: any) => console.error("❌ Error:", err),
-          onClose: () => console.warn("⚠️ Closed without finishing payment"),
+          onSuccess: (res: any) => {
+            console.log("✅ Success:", res);
+            setLoadingCheckout(false);
+          },
+          onPending: (res: any) => {
+            console.log("⏳ Pending:", res);
+            setLoadingCheckout(false);
+          },
+          onError: (err: any) => {
+            console.error("❌ Error:", err);
+            setLoadingCheckout(false);
+          },
+          onClose: () => {
+            console.warn("⚠️ Closed without finishing payment");
+            setLoadingCheckout(false);
+          },
         });
       } else {
         console.error("❌ Midtrans token not found", data);
+        setLoadingCheckout(false);
       }
     } catch (err) {
       console.error("❌ Checkout error:", err);
+      setLoadingCheckout(false);
     }
   };
 
@@ -139,10 +158,10 @@ export default function ProductDetail({ product }: { product: any }) {
         ) : mediaList[selectedIndex].__typename === "Video" ? (
           <>
             {mediaList[selectedIndex].sources[0].url.includes("youtube.com") ||
-            mediaList[selectedIndex].sources[0].url.includes("youtu.be") ||
-            mediaList[selectedIndex].sources[0].url.includes(
-              "drive.google.com"
-            ) ? (
+              mediaList[selectedIndex].sources[0].url.includes("youtu.be") ||
+              mediaList[selectedIndex].sources[0].url.includes(
+                "drive.google.com"
+              ) ? (
               <div className="w-full bg-black rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
                 <iframe
                   src={mediaList[selectedIndex].sources[0].url}
@@ -185,9 +204,8 @@ export default function ProductDetail({ product }: { product: any }) {
             <button
               key={m.id}
               onClick={() => setSelectedIndex(i)}
-              className={`flex-shrink-0 w-16 h-12 md:w-24 md:h-16 rounded overflow-hidden border ${
-                i === selectedIndex ? "border-blue-500" : "border-gray-200"
-              }`}
+              className={`flex-shrink-0 w-16 h-12 md:w-24 md:h-16 rounded overflow-hidden border ${i === selectedIndex ? "border-blue-500" : "border-gray-200"
+                }`}
             >
               {m.__typename === "Video" ? (
                 <div className="relative w-full h-full bg-black flex items-center justify-center">
@@ -264,9 +282,13 @@ export default function ProductDetail({ product }: { product: any }) {
           </button>
           <button
             onClick={handleCheckout}
-            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700"
+            disabled={loadingCheckout}
+            className={`w-full py-3 rounded-lg font-semibold text-white ${loadingCheckout
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700"
+              }`}
           >
-            Bayar Sekarang
+            {loadingCheckout ? "Memproses..." : "Bayar Sekarang"}
           </button>
           <button
             onClick={() => {
@@ -330,6 +352,11 @@ export default function ProductDetail({ product }: { product: any }) {
               <strong>Catatan:</strong> {product.notes}
             </div>
           )}
+        </div>
+
+        {/* 🔹 Footer Info */}
+        <div className="mt-8 text-center text-xs text-gray-400">
+          Memberdayakan bisnis dengan otomasi cerdas dan solusi digital.
         </div>
       </div>
     </div>
