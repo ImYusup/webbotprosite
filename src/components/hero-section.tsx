@@ -1,3 +1,4 @@
+// src/components/hero-section.tsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -7,11 +8,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 
 const images = [
-  "/assets/whatsapp-commerce-automation.png",
   "/assets/webbotpro.com-1.png",
-  "/assets/digital-presence-marketings.png",
-   "/assets/webbotpro.com-2.png",
-  "/assets/data-business-intelligence.png",
+  "/assets/webbotpro.com-2.png",
   "/assets/webbotpro.com-3.png",
 ]
 
@@ -32,29 +30,30 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto text-center">
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-            Ready to Automate and Grow Your Business?
+            Automasi & Solusi Digital untuk Bisnis Modern 🚀
           </h1>
 
           {/* Description */}
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto font-serif leading-relaxed">
-            Join hundreds of businesses that have transformed their operations with our automation, digital marketing,
-            and business intelligence solutions.
+            WebBotPro membantu UMKM & perusahaan scale-up dengan <strong>otomatisasi cerdas</strong>,{" "}
+            <strong>digital marketing</strong>, <strong>business intelligence</strong>, hingga{" "}
+            <strong>integrasi payment gateway Indonesia</strong>. Semua dalam satu platform.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <a
-              href="https://wa.me/6281289066999?text=Halo%20WebBotPro%2C%20saya%20tertarik%20untuk%20melihat%20bagaimana%20solusi%20automasi%20dan%20digital%20marketing%20Anda%20dapat%20membantu%20mengembangkan%20bisnis%20saya.%20Bisakah%20Anda%20mengatur%20demo%20untuk%20menjelaskan%20lebih%20lanjut%3F%20Terima%20kasih!"
+              href="https://wa.me/6281289066999?text=Halo%20WebBotPro%2C%20saya%20tertarik%20untuk%20mencoba%20demo%20solusi%20otomatisasi%20dan%20payment%20gateway%20Anda.%20Bisa%20dibantu%20jadwalkan%20demo%3F"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Button size="lg" variant="secondary" className="text-lg px-8 py-6 bg-green-500 hover:bg-green-600 text-white">
-                Contact Us for a Demo
+                Coba Demo Gratis
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </a>
             <a
-              href="https://wa.me/6281289066999?text=Halo%20WebBotPro%2C%20saya%20ingin%20tahu%20lebih%20banyak%20tentang%20solusi%20automasi%2C%20digital%20marketing%2C%20dan%20business%20intelligence%20yang%20Anda%20tawarkan.%20Bisakah%20Anda%20berbagi%20informasi%20lebih%20detail%3F%20Terima%20kasih!"
+              href="https://wa.me/6281289066999?text=Halo%20WebBotPro%2C%20saya%20ingin%20tahu%20lebih%20banyak%20tentang%20solusi%20digital%20dan%20integrasi%20payment%20gateway.%20Bisa%20dibantu%3F"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -63,7 +62,7 @@ export function HeroSection() {
                 variant="outline"
                 className="text-lg px-8 py-6 border-white text-white hover:bg-white hover:text-teal-600 bg-transparent"
               >
-                WhatsApp Us
+                Chat via WhatsApp
               </Button>
             </a>
           </div>
@@ -84,8 +83,8 @@ export function HeroSection() {
                     src={images[current]}
                     alt="WebBotPro Digital Solutions Dashboard"
                     className="rounded-xl shadow-2xl object-contain"
-                    width={1600} // gedein biar jelas
-                    height={900} // biar ratio asli kerasa
+                    width={1600}
+                    height={900}
                   />
                 </motion.div>
               </AnimatePresence>

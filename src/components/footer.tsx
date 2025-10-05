@@ -13,7 +13,7 @@ export function Footer() {
               <span className="font-bold text-2xl">WebBotPro</span>
             </div>
             <p className="text-muted-foreground font-serif max-w-sm mx-auto md:mx-0">
-              Empowering businesses with intelligent automation and digital solutions.
+              Memberdayakan bisnis dengan otomasi cerdas dan solusi digital.
             </p>
 
             {/* Social Links */}
@@ -57,7 +57,7 @@ export function Footer() {
             <ul className="space-y-2 text-muted-foreground font-serif">
               <li>
                 <Link href="/pricing/whatsapp" className="font-bold text-lg hover:text-primary transition-colors">
-                  WhatsApp Commerce Automation
+                  Automasi WhatsApp Commerce
                 </Link>
               </li>
               <li>

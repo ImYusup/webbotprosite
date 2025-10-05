@@ -24,7 +24,7 @@ const pricingData: Record<
   }
 > = {
   whatsapp: {
-    title: "📱 WhatsApp Commerce Automation – Pricing Plan",
+    title: "📱 Automasi WhatsApp Commerce – Pricing Plan",
     plans: [
       {
         name: "🌱 Starter",

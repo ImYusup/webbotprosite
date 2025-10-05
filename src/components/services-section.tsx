@@ -1,3 +1,4 @@
+// src/components/services-section.tsx
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MessageSquare, Globe, BarChart3, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -6,44 +7,44 @@ import Link from "next/link"
 const services = [
   {
     icon: MessageSquare,
-    title: "WhatsApp Commerce Automation",
+    title: "Automasi WhatsApp Commerce",
     description:
-      "Streamline your customer interactions with intelligent auto-replies, product catalog automation, and seamless order processing.",
+      "Permudah interaksi dengan pelanggan melalui balasan otomatis, katalog produk terintegrasi, dan pemrosesan pesanan yang cepat.",
     features: [
-      "Auto-reply & greeting systems",
-      "Product catalog automation",
-      "Workflow order & invoice processing",
-      "Google Sheets & database integration",
+      "Balasan otomatis & sapaan pelanggan",
+      "Katalog produk terintegrasi",
+      "Alur pesanan & pembuatan invoice otomatis",
+      "Integrasi dengan Google Sheets & database",
     ],
-    benefits: "Faster customer response, streamlined sales process, reduced operational costs",
+    benefits: "Respon pelanggan lebih cepat, proses penjualan lebih efisien, biaya operasional lebih rendah",
     pricingLink: "/pricing/whatsapp",
   },
   {
     icon: Globe,
     title: "Digital Presence & Marketing",
     description:
-      "Build a powerful online presence with comprehensive website solutions, social media management, and targeted advertising campaigns.",
+      "Bangun kehadiran online yang kuat dengan solusi website lengkap, manajemen media sosial, dan kampanye iklan digital yang tepat sasaran.",
     features: [
-      "Website creation (company profile, e-commerce, landing pages)",
-      "Social media management & optimization",
-      "Follower & engagement growth strategies",
-      "Digital ads (Meta, Google, TikTok) & SEO",
+      "Pembuatan website (company profile, e-commerce, landing page)",
+      "Manajemen & optimasi media sosial",
+      "Strategi peningkatan follower & engagement",
+      "Iklan digital (Meta, Google, TikTok) & SEO",
     ],
-    benefits: "Stronger online visibility, increased brand awareness, enhanced customer engagement",
+    benefits: "Visibilitas online lebih luas, brand awareness meningkat, engagement pelanggan lebih baik",
     pricingLink: "/pricing/marketing",
   },
   {
     icon: BarChart3,
     title: "Data & Business Intelligence",
     description:
-      "Transform your data into actionable insights with interactive dashboards, comprehensive analytics, and seamless integrations.",
+      "Ubah data bisnis menjadi insight yang mudah dipahami melalui dashboard interaktif, analisis menyeluruh, dan integrasi data otomatis.",
     features: [
-      "Interactive apps & dashboards with Power BI",
-      "Data visualization for sales/marketing/operations",
-      "Data integration (Excel, database, API)",
-      "Custom reporting solutions",
+      "Aplikasi & dashboard interaktif dengan Power BI",
+      "Visualisasi data untuk sales/marketing/operasional",
+      "Integrasi data (Excel, database, API)",
+      "Solusi laporan custom",
     ],
-    benefits: "Better decision-making with clear insights, improved business efficiency, enhanced scalability",
+    benefits: "Pengambilan keputusan lebih tepat, efisiensi bisnis meningkat, bisnis mudah untuk scale up",
     pricingLink: "/pricing/data",
   },
 ]
@@ -55,11 +56,11 @@ export function ServicesSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Our Digital Solutions
-            <span className="text-primary block">for Your Business Growth</span>
+            Solusi Digital Modern
+            <span className="text-primary block">untuk Pertumbuhan Bisnis Anda</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-serif">
-            Comprehensive services designed to automate, optimize, and scale your business operations
+            Layanan lengkap untuk mengotomasi, mengoptimalkan, dan mengembangkan bisnis Anda di era digital
           </p>
         </div>
 
