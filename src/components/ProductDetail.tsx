@@ -6,15 +6,15 @@ import { useCart } from "@/lib/cart-store";
 
 type MediaNode =
   | {
-    __typename: "MediaImage";
-    id: string;
-    image: { url: string; altText?: string | null };
-  }
+      __typename: "MediaImage";
+      id: string;
+      image: { url: string; altText?: string | null };
+    }
   | {
-    __typename: "Video";
-    id: string;
-    sources: { url: string; mimeType?: string }[];
-  };
+      __typename: "Video";
+      id: string;
+      sources: { url: string; mimeType?: string }[];
+    };
 
 export default function ProductDetail({ product }: { product: any }) {
   const { addItem, setShowCart } = useCart();
@@ -30,12 +30,12 @@ export default function ProductDetail({ product }: { product: any }) {
 
     const vids = product?.videoUrl
       ? [
-        {
-          __typename: "Video" as const,
-          id: "vid-1",
-          sources: [{ url: product.videoUrl, mimeType: "video/mp4" }],
-        },
-      ]
+          {
+            __typename: "Video" as const,
+            id: "vid-1",
+            sources: [{ url: product.videoUrl, mimeType: "video/mp4" }],
+          },
+        ]
       : [];
 
     return vids.length > 0 ? [...vids, ...imgs] : imgs;
@@ -43,9 +43,7 @@ export default function ProductDetail({ product }: { product: any }) {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
-    if (mediaList.length > 0) {
-      setSelectedIndex(0);
-    }
+    if (mediaList.length > 0) setSelectedIndex(0);
   }, [mediaList]);
 
   const thumbContainerRef = useRef<HTMLDivElement | null>(null);
@@ -81,20 +79,18 @@ export default function ProductDetail({ product }: { product: any }) {
           ? mediaList[0].image.url
           : undefined,
     });
-    setShowCart(true); // ✅ buka sidebar cart
+    setShowCart(true);
   };
 
-  // 🔹 Checkout Handler (langsung Midtrans 1 produk)
+  // 🔹 Checkout Handler (Midtrans)
   const handleCheckout = async () => {
     try {
       const payload = {
         amount: (product.discountPrice ?? product.price) * quantity,
-        name: "Guest", // bisa ambil dari user login kalau ada
-        email: "guest@example.com", // bisa ambil dari user login kalau ada
+        name: "Guest",
+        email: "guest@example.com",
         productName: product.name,
       };
-
-      console.log("🛒 Checkout payload:", payload);
 
       const response = await fetch("/api/create-transaction", {
         method: "POST",
@@ -104,15 +100,13 @@ export default function ProductDetail({ product }: { product: any }) {
 
       const data = await response.json();
 
-      console.log("✅ Midtrans response:", data);
-
       if (data?.token) {
         // @ts-ignore
         window.snap.pay(data.token, {
           onSuccess: (res: any) => console.log("✅ Success:", res),
           onPending: (res: any) => console.log("⏳ Pending:", res),
           onError: (err: any) => console.error("❌ Error:", err),
-          onClose: () => console.warn("⚠️ Popup closed without finishing payment"),
+          onClose: () => console.warn("⚠️ Closed without finishing payment"),
         });
       } else {
         console.error("❌ Midtrans token not found", data);
@@ -133,21 +127,23 @@ export default function ProductDetail({ product }: { product: any }) {
       .replace("IDR", "Rp")
       .trim();
 
-  // ✅ RETURN (UI)
+  // ✅ UI
   return (
-    <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-2 gap-8">
+    <div className="max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
       {/* Left: media */}
       <div>
         {mediaList.length === 0 ? (
-          <div className="w-full h-[360px] bg-gray-100 flex items-center justify-center rounded-lg">
-            <span className="text-gray-500">No media available</span>
+          <div className="w-full h-[240px] md:h-[420px] bg-gray-100 flex items-center justify-center rounded-lg">
+            <span className="text-gray-500 text-sm">No media available</span>
           </div>
         ) : mediaList[selectedIndex].__typename === "Video" ? (
           <>
             {mediaList[selectedIndex].sources[0].url.includes("youtube.com") ||
-              mediaList[selectedIndex].sources[0].url.includes("youtu.be") ||
-              mediaList[selectedIndex].sources[0].url.includes("drive.google.com") ? (
-              <div className="w-full max-h-[480px] bg-black rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
+            mediaList[selectedIndex].sources[0].url.includes("youtu.be") ||
+            mediaList[selectedIndex].sources[0].url.includes(
+              "drive.google.com"
+            ) ? (
+              <div className="w-full bg-black rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
                 <iframe
                   src={mediaList[selectedIndex].sources[0].url}
                   className="w-full aspect-[9/16] md:aspect-[16/9] object-contain"
@@ -156,14 +152,16 @@ export default function ProductDetail({ product }: { product: any }) {
                 />
               </div>
             ) : (
-              <div className="w-full max-h-[480px] bg-black rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
+              <div className="w-full bg-black rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
                 <video
                   controls
                   className="w-full aspect-[9/16] md:aspect-[16/9] object-contain"
                 >
                   <source
                     src={mediaList[selectedIndex].sources[0].url}
-                    type={mediaList[selectedIndex].sources[0].mimeType || "video/mp4"}
+                    type={
+                      mediaList[selectedIndex].sources[0].mimeType || "video/mp4"
+                    }
                   />
                   Your browser does not support the video tag.
                 </video>
@@ -174,26 +172,27 @@ export default function ProductDetail({ product }: { product: any }) {
           <img
             src={mediaList[selectedIndex].image.url}
             alt={mediaList[selectedIndex].image.altText || product.name}
-            className="w-full max-h-[480px] object-contain rounded-lg shadow-lg"
+            className="w-full max-h-[280px] md:max-h-[480px] object-contain rounded-lg shadow-lg"
           />
         )}
 
-        {/* 🔹 Thumbnail slider */}
+        {/* 🔹 Thumbnails */}
         <div
           ref={thumbContainerRef}
-          className="mt-4 flex gap-3 overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
+          className="mt-3 flex gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
         >
           {mediaList.map((m, i) => (
             <button
               key={m.id}
               onClick={() => setSelectedIndex(i)}
-              className={`flex-shrink-0 w-20 h-14 rounded overflow-hidden border ${i === selectedIndex ? "border-blue-500" : "border-gray-200"
-                }`}
+              className={`flex-shrink-0 w-16 h-12 md:w-24 md:h-16 rounded overflow-hidden border ${
+                i === selectedIndex ? "border-blue-500" : "border-gray-200"
+              }`}
             >
               {m.__typename === "Video" ? (
                 <div className="relative w-full h-full bg-black flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 text-white opacity-80"
+                    className="w-5 h-5 md:w-7 md:h-7 text-white opacity-80"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
@@ -214,16 +213,18 @@ export default function ProductDetail({ product }: { product: any }) {
 
       {/* Right: product info */}
       <div>
-        <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
+        <h1 className="text-xl md:text-3xl font-bold mb-2 md:mb-3">
+          {product.name}
+        </h1>
 
         {/* Harga */}
         <div className="mb-4">
           {product.discountPrice && (
-            <p className="text-gray-400 line-through">
+            <p className="text-gray-400 line-through text-sm md:text-base">
               {formatRupiah(product.price)}
             </p>
           )}
-          <p className="text-2xl font-extrabold text-green-600">
+          <p className="text-xl md:text-2xl font-extrabold text-green-600">
             {formatRupiah(product.discountPrice ?? product.price)}
           </p>
         </div>
@@ -243,7 +244,7 @@ export default function ProductDetail({ product }: { product: any }) {
             onChange={(e) =>
               setQuantity(Math.max(1, Number(e.target.value) || 1))
             }
-            className="w-20 text-center border rounded-md px-2 py-1"
+            className="w-16 text-center border rounded-md px-2 py-1"
           />
           <button
             onClick={() => setQuantity((q) => q + 1)}
@@ -287,8 +288,8 @@ export default function ProductDetail({ product }: { product: any }) {
           </button>
         </div>
 
-        {/* Description + Details */}
-        <div className="prose max-w-none text-gray-700 space-y-6">
+        {/* Deskripsi & detail */}
+        <div className="prose prose-sm md:prose max-w-none text-gray-700 space-y-6">
           <p>{product.description}</p>
 
           {product.features && (
@@ -334,4 +335,3 @@ export default function ProductDetail({ product }: { product: any }) {
     </div>
   );
 }
-
