@@ -20,12 +20,12 @@ export const products: Product[] = [
     name: "WhatsApp Bot Cashflow Automation",
     price: 150000,
     discountPrice: 100000,
-    currency: "Rp",
+    currency: "IDR",
     description:
       "Kontrol arus kas bisnis kamu dengan ringkasan real-time yang dikirim langsung ke WhatsApp setiap hari.",
     features: [
       "Ringkasan harian, mingguan, dan bulanan otomatis",
-      "Notifikasi arus kas real-time: surplus atau defisit",
+      "Notifikasi arus kas real-time: suIDRlus atau defisit",
       "Mudah digunakan, cukup kirim pesan ke WhatsApp Bot",
     ],
     benefits: [
@@ -54,7 +54,7 @@ export const products: Product[] = [
     name: "WhatsApp Bot Sales Automation",
     price: 450000,
     discountPrice: 300000, // opsional kalau mau kasih diskon
-    currency: "Rp",
+    currency: "IDR",
     description:
       "Bot WhatsApp untuk otomasi penjualan, katalog, dan notifikasi order. Bikin jualan makin gampang dan cepat.",
     features: [
@@ -90,7 +90,7 @@ export const products: Product[] = [
     name: "Company Profile Website",
     price: 1000000,
     discountPrice: 700000,
-    currency: "Rp",
+    currency: "IDR",
     description:
       "Website profesional sederhana untuk UMKM & company profile bisnis.",
     features: [
@@ -125,7 +125,7 @@ export const products: Product[] = [
     name: "E-Commerce Website",
     price: 7500000,
     discountPrice: 5000000,
-    currency: "Rp",
+    currency: "IDR",
     description:
       "Website toko online lengkap dengan payment gateway & integrasi Instagram Shop. Cocok buat UMKM dan bisnis yang serius jualan online.",
     features: [
@@ -163,7 +163,7 @@ export const products: Product[] = [
     name: "Power BI Dashboard & BI Solutions",
     price: 1500000,
     discountPrice: 1000000,
-    currency: "Rp",
+    currency: "IDR",
     description:
       "Dashboard interaktif untuk analisis data, laporan bisnis, dan decision support. Bikin keputusan bisnis lebih cepat dengan visualisasi data yang powerful.",
     features: [
