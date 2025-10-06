@@ -28,7 +28,7 @@ const products = [
   {
     id: "business-website",
     name: "Business Website (SMB)",
-    price: 2500000,
+    price: 1500000,
     currency: "IDR",
     description: "Website bisnis modern dengan fitur pembayaran online.",
   },

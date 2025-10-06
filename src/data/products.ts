@@ -197,8 +197,8 @@ export const products: Product[] = [
   {
     id: "business-website",
     name: "Business Website (SMB)",
-    price: 3500000,
-    discountPrice: 2500000,
+    price: 2300000,
+    discountPrice: 1500000,
     currency: "IDR",
     description:
       "Website bisnis modern dengan fitur pembayaran online.",
