@@ -36,8 +36,7 @@ export function HeroSection() {
           {/* Description */}
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto font-serif leading-relaxed">
             WebBotPro membantu UMKM & perusahaan scale-up dengan <strong>otomatisasi cerdas</strong>,{" "}
-            <strong>digital marketing</strong>, <strong>business intelligence</strong>, hingga{" "}
-            <strong>integrasi payment gateway Indonesia</strong>. Semua dalam satu platform.
+            <strong>digital marketing</strong>, <strong>business intelligence</strong>. Semua dalam satu platform.
           </p>
 
           {/* CTA Buttons */}

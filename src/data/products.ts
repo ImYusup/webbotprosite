@@ -204,7 +204,7 @@ export const products: Product[] = [
       "Website bisnis modern dengan fitur pembayaran online.",
     features: [
       "Website modern responsif (desktop & mobile)",
-      "Integrasi payment gateway Indonesia",
+      "Integrasi payment Indonesia",
       "Sudah termasuk domain + hosting gratis langsung aktif",
       "Cocok untuk Company Profile, toko kecil, hingga brand UMKM",
     ],

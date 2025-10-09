@@ -76,17 +76,17 @@ const pricingData: Record<
         price: "Rp1–3Jt",
         description: "Paket ideal untuk UMKM pemula yang ingin punya identitas digital profesional.",
         features: [
-          "Website Company Profile / Landing Page (1–3 halaman)",
-          "Website Business Support (10–20 produk unggulan) + integrasi Payment Gateway Indonesia",
-          "Domain & Hosting gratis 1 tahun",
-          "Basic Social Media Setup (1 akun, 12 desain template konten)",
+          "Website Company Profile atau Landing Page (1–3 halaman)",
+          "Website Business Support (10–20 produk unggulan) lengkap dengan payment Indonesia",
+          "Gratis domain dan hosting selama 1 tahun",
+          "Basic Social Media Setup (1 akun + 12 template desain konten)",
         ],
         note: "Cocok untuk: klinik, kursus, jasa lokal",
       },
       {
-  name: "💼 Business",
-    price: "Rp5-8Jt",
-      description: "Untuk bisnis menengah yang butuh audience lebih besar.",
+        name: "💼 Business",
+        price: "Rp5-8Jt",
+        description: "Untuk bisnis menengah yang butuh audience lebih besar.",
         features: [
           "Semua Fitur Paket Starter",
           "Website E-Commerce / Company Profile Lengkap",
@@ -95,12 +95,12 @@ const pricingData: Record<
           "1 Konten IG/FB dengan 700K views & 50K likes",
           "SEO Nasional",
         ],
-          note: "Cocok untuk: resto & café, toko online mid",
+        note: "Cocok untuk: resto & café, toko online mid",
       },
-{
-  name: "🏢 Premium",
-    price: "Rp10Jt",
-      description: "Untuk corporate/brand besar yang mau all-in digital presence.",
+      {
+        name: "🏢 Premium",
+        price: "Rp10Jt",
+        description: "Untuk corporate/brand besar yang mau all-in digital presence.",
         features: [
           "Semua Fitur Paket Business",
           "Website Custom (Landing Page + Toko Online)",
@@ -110,13 +110,13 @@ const pricingData: Record<
           "Advanced SEO",
           "Free 1 bulan trial Ads",
         ],
-          note: "Cocok untuk: franchise, corporate brand, e-commerce",
+        note: "Cocok untuk: franchise, corporate brand, e-commerce",
       },
     ],
-contact: "WhatsApp Us",
+    contact: "WhatsApp Us",
   },
-data: {
-  title: "📊 Data & Business Intelligence – Pricing Plan",
+  data: {
+    title: "📊 Data & Business Intelligence – Pricing Plan",
     plans: [
       {
         name: "🌱 Starter",
@@ -147,10 +147,10 @@ data: {
         note: "Cocok untuk: perusahaan distribusi, restoran chain, startup growing",
       },
     ],
-      contact: "Contact Us",
+    contact: "Contact Us",
   },
-"about-us": {
-  title: "Tentang WebBotPro",
+  "about-us": {
+    title: "Tentang WebBotPro",
     content: `
 WebBotPro — Empowering Digital Automation from Bandung
 
@@ -168,8 +168,8 @@ Lokasi: Bandung, Jawa Barat, pusat kreativitas dan inovasi digital 🌆
 - Skalabilitas dan Kustomisasi: Cocok untuk UMKM hingga perusahaan besar.
     `,
   },
-"custom-testimonials": {
-  title: "Custom Solutions",
+  "custom-testimonials": {
+    title: "Custom Solutions",
     content: `
 Silakan isi form di bawah ini untuk mengajukan permintaan aplikasi kustom:
 
