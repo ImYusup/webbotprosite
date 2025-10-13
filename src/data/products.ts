@@ -130,7 +130,7 @@ export const products: Product[] = [
       "Website toko online lengkap dengan payment gateway & integrasi Instagram Shop. Cocok buat UMKM dan bisnis yang serius jualan online.",
     features: [
       "Desain modern & mobile friendly",
-      "Integrasi payment gateway (Midtrans, dll)",
+      "Integrasi payment gateway",
       "Manajemen produk & stok",
       "Integrasi Instagram Shop",
       "Fitur diskon & voucher",
