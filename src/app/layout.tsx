@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "WebBotPro - WhatsApp Automation, Digital Marketing & Business Intelligence",
   description:
     "WebBotPro membantu bisnis dengan WhatsApp Commerce Automation, Digital Presence & Marketing, serta Data & Business Intelligence untuk UMKM & perusahaan.",
+  icons: {
+    icon: "/favicon.png", 
+  },
   keywords: [
     "WhatsApp Commerce Automation",
     "WhatsApp Automation",
@@ -107,7 +110,6 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
-
         {/* ✅ Sidebar Cart selalu available */}
         <CartSidebar />
 
