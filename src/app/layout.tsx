@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   description:
     "WebBotPro membantu bisnis dengan WhatsApp Commerce Automation, Digital Presence & Marketing, serta Data & Business Intelligence untuk UMKM & perusahaan.",
   icons: {
-    icon: "/favicon.png", 
+    icon: "/favicon.png",
   },
   keywords: [
     "WhatsApp Commerce Automation",
@@ -106,6 +106,9 @@ export default function RootLayout({
       lang="id"
       className={`${geist.variable} ${manrope.variable} antialiased`}
     >
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+      </head>
       <body className="font-sans min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>
