@@ -3,7 +3,6 @@
 import { NextResponse } from "next/server";
 import { products } from "@/data/products";
 
-// Tipe untuk item checkout
 interface CheckoutItem {
   productId: string;
   quantity: number;
@@ -13,11 +12,11 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // ✅ Pilih key otomatis (sandbox di dev, live di production)
-    const secretKey =
-      process.env.NODE_ENV === "production"
-        ? process.env.XENDIT_SECRET_KEY_LIVE
-        : process.env.XENDIT_SECRET_KEY_SANDBOX;
+    // ✅ Otomatis pilih sandbox atau live
+    const isProduction = process.env.NODE_ENV === "production";
+    const secretKey = isProduction
+      ? process.env.XENDIT_SECRET_KEY_LIVE
+      : process.env.XENDIT_SECRET_KEY_SANDBOX;
 
     if (!secretKey) {
       return NextResponse.json(
@@ -26,7 +25,10 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log("📦 Incoming checkout:", body);
+    console.log(
+      `📦 Incoming checkout (${isProduction ? "LIVE" : "SANDBOX"} mode):`,
+      body
+    );
 
     // ✅ Validasi & mapping produk
     const validItems =
@@ -42,19 +44,13 @@ export async function POST(req: Request) {
         };
       }) || [];
 
-    // ✅ Hitung total harga
     const grossAmount = validItems.reduce(
       (sum: number, item) => sum + item.price * item.quantity,
       0
     );
 
-    // ✅ Tentukan endpoint Xendit (sandbox/live)
-    const xenditEndpoint =
-      process.env.NODE_ENV === "production"
-        ? "https://api.xendit.co/v2/invoices"
-        : "https://api.xendit.co/v2/invoices";
+    const xenditEndpoint = "https://api.xendit.co/v2/invoices";
 
-    // ✅ Request ke Xendit API
     const res = await fetch(xenditEndpoint, {
       method: "POST",
       headers: {
@@ -96,6 +92,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       invoice_url: data.invoice_url,
+      mode: isProduction ? "LIVE" : "SANDBOX",
     });
   } catch (err: any) {
     console.error("❌ Checkout API error:", err);
