@@ -1,5 +1,5 @@
 // src/app/api/checkout/route.ts
-// ✅ FINAL CLEAN XENDIT CHECKOUT API (TypeScript Safe)
+// ✅ FINAL AUTO-SWITCH XENDIT CHECKOUT API (TypeScript Safe)
 import { NextResponse } from "next/server";
 import { products } from "@/data/products";
 
@@ -12,18 +12,23 @@ interface CheckoutItem {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const secretKey = process.env.XENDIT_SECRET_KEY;
+
+    // ✅ Pilih key otomatis (sandbox di dev, live di production)
+    const secretKey =
+      process.env.NODE_ENV === "production"
+        ? process.env.XENDIT_SECRET_KEY_LIVE
+        : process.env.XENDIT_SECRET_KEY_SANDBOX;
 
     if (!secretKey) {
       return NextResponse.json(
-        { error: "Missing XENDIT_SECRET_KEY" },
+        { error: "Missing XENDIT_SECRET_KEY (sandbox/live)" },
         { status: 500 }
       );
     }
 
     console.log("📦 Incoming checkout:", body);
 
-    // ✅ Validasi dan mapping produk
+    // ✅ Validasi & mapping produk
     const validItems =
       (body.items as CheckoutItem[])?.map((i: CheckoutItem) => {
         const product = products.find((p) => p.id === i.productId);
@@ -37,14 +42,20 @@ export async function POST(req: Request) {
         };
       }) || [];
 
-    // ✅ Hitung total harga (fix TS warning)
+    // ✅ Hitung total harga
     const grossAmount = validItems.reduce(
       (sum: number, item) => sum + item.price * item.quantity,
       0
     );
 
+    // ✅ Tentukan endpoint Xendit (sandbox/live)
+    const xenditEndpoint =
+      process.env.NODE_ENV === "production"
+        ? "https://api.xendit.co/v2/invoices"
+        : "https://api.xendit.co/v2/invoices";
+
     // ✅ Request ke Xendit API
-    const res = await fetch("https://api.xendit.co/v2/invoices", {
+    const res = await fetch(xenditEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
