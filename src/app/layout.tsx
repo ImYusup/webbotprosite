@@ -117,11 +117,11 @@ export default function RootLayout({
         <CartSidebar />
 
         {/* ✅ Midtrans Snap.js always load Production */}
-        <Script
+        {/* <Script
           src="https://app.midtrans.com/snap/snap.js"
           data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
           strategy="afterInteractive"
-        />
+        /> */}
       </body>
     </html>
   );

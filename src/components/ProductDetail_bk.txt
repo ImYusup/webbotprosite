@@ -82,23 +82,22 @@ export default function ProductDetail({ product }: { product: any }) {
     setShowCart(true);
   };
 
-  // 🔹 Checkout Handler (XENDIT — ganti dari Midtrans)
+  // 🔹 Checkout Handler (Midtrans)
   const [loadingCheckout, setLoadingCheckout] = useState(false);
 
   const handleCheckout = async () => {
-    if (loadingCheckout) return;
+    if (loadingCheckout) return; // cegah double click
     setLoadingCheckout(true);
 
     try {
       const payload = {
-        items: [{ productId: product.id, quantity }],
-        customer: {
-          name: "Guest",
-          email: "guest@example.com",
-        },
+        amount: (product.discountPrice ?? product.price) * quantity,
+        name: "Guest",
+        email: "guest@example.com",
+        productName: product.name,
       };
 
-      const response = await fetch("/api/checkout", {
+      const response = await fetch("/api/create-transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -106,16 +105,32 @@ export default function ProductDetail({ product }: { product: any }) {
 
       const data = await response.json();
 
-      if (data?.invoice_url) {
-        window.location.href = data.invoice_url;
+      if (data?.token) {
+        // @ts-ignore
+        window.snap.pay(data.token, {
+          onSuccess: (res: any) => {
+            console.log("✅ Success:", res);
+            setLoadingCheckout(false);
+          },
+          onPending: (res: any) => {
+            console.log("⏳ Pending:", res);
+            setLoadingCheckout(false);
+          },
+          onError: (err: any) => {
+            console.error("❌ Error:", err);
+            setLoadingCheckout(false);
+          },
+          onClose: () => {
+            console.warn("⚠️ Closed without finishing payment");
+            setLoadingCheckout(false);
+          },
+        });
       } else {
-        console.error("❌ Gagal membuat invoice:", data);
-        alert("Gagal membuat pembayaran. Silakan coba lagi.");
+        console.error("❌ Midtrans token not found", data);
+        setLoadingCheckout(false);
       }
     } catch (err) {
       console.error("❌ Checkout error:", err);
-      alert("Terjadi kesalahan koneksi. Coba lagi nanti.");
-    } finally {
       setLoadingCheckout(false);
     }
   };
@@ -270,7 +285,7 @@ export default function ProductDetail({ product }: { product: any }) {
             disabled={loadingCheckout}
             className={`w-full py-3 rounded-lg font-semibold text-white ${loadingCheckout
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-500 hover:bg-green-600"
+                : "bg-green-600 hover:bg-green-700"
               }`}
           >
             {loadingCheckout ? "Memproses..." : "Bayar Sekarang"}
