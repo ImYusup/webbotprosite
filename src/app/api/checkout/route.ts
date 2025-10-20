@@ -1,5 +1,5 @@
 // src/app/api/checkout/route.ts
-// ✅ FINAL AUTO-SWITCH + FALLBACK XENDIT CHECKOUT API (TypeScript Safe)
+// ✅ FINAL STABLE VERSION — Force Sandbox until live key approved
 import { NextResponse } from "next/server";
 import { products } from "@/data/products";
 
@@ -12,36 +12,18 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // ✅ Deteksi environment
-    const isProduction = process.env.NODE_ENV === "production";
-
-    // ✅ Pilih key utama sesuai environment
-    let secretKey = isProduction
-      ? process.env.XENDIT_SECRET_KEY_LIVE
-      : process.env.XENDIT_SECRET_KEY_SANDBOX;
-
-    // ✅ Fallback otomatis ke sandbox jika key live belum valid
-    if (
-      isProduction &&
-      (!secretKey || !secretKey.startsWith("xnd_production_"))
-    ) {
-      console.warn("⚠️ LIVE key belum valid, fallback ke SANDBOX mode");
-      secretKey = process.env.XENDIT_SECRET_KEY_SANDBOX;
-    }
+    // ✅ Untuk saat ini, gunakan sandbox key SELALU
+    const secretKey = process.env.XENDIT_SECRET_KEY_SANDBOX;
 
     if (!secretKey) {
       return NextResponse.json(
-        { error: "Missing XENDIT_SECRET_KEY (sandbox/live)" },
+        { error: "Missing XENDIT_SECRET_KEY_SANDBOX" },
         { status: 500 }
       );
     }
 
-    console.log(
-      `📦 Incoming checkout (${isProduction ? "LIVE" : "SANDBOX"} mode):`,
-      body
-    );
+    console.log("📦 Incoming checkout (FORCED SANDBOX):", body);
 
-    // ✅ Validasi & mapping produk
     const validItems =
       (body.items as CheckoutItem[])?.map((i: CheckoutItem) => {
         const product = products.find((p) => p.id === i.productId);
@@ -55,16 +37,13 @@ export async function POST(req: Request) {
         };
       }) || [];
 
-    // ✅ Hitung total harga
     const grossAmount = validItems.reduce(
       (sum: number, item) => sum + item.price * item.quantity,
       0
     );
 
-    // ✅ Endpoint API Xendit (sama untuk sandbox/live)
     const xenditEndpoint = "https://api.xendit.co/v2/invoices";
 
-    // ✅ Kirim request ke Xendit
     const res = await fetch(xenditEndpoint, {
       method: "POST",
       headers: {
@@ -106,7 +85,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       invoice_url: data.invoice_url,
-      mode: isProduction ? "LIVE" : "SANDBOX",
+      mode: "FORCED_SANDBOX",
     });
   } catch (err: any) {
     console.error("❌ Checkout API error:", err);
