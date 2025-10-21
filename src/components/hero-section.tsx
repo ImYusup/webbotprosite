@@ -52,7 +52,7 @@ export function HeroSection() {
               </Button>
             </a>
             <a
-              href="https://wa.me/6281289066999?text=Halo%20WebBotPro%2C%20saya%20ingin%20tahu%20lebih%20banyak%20tentang%20solusi%20digital%20dan%20integrasi%20payment%20gateway.%20Bisa%20dibantu%3F"
+              href="https://wa.me/6281289066999?text=Halo%20WebBotPro%2C%20saya%20ingin%20tahu%20lebih%20banyak%20tentang%20solusi%20platform%20digital%20untuk%20usaha%20kami.%20Bisa%20dibantu%3F"
               target="_blank"
               rel="noopener noreferrer"
             >
