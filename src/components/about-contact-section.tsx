@@ -3,7 +3,7 @@
 
 export function AboutContactSection() {
   return (
-    <section id="about-contact" className="py-20 bg-gradient-to-b from-white to-gray-50 border-t border-gray-200">
+    <section id="contact" className="py-20 bg-gradient-to-b from-white to-gray-50 border-t border-gray-200">
       <div className="container mx-auto px-6 text-center">
         {/* Header */}
         <h2 className="text-4xl font-extrabold text-primary mb-4">
