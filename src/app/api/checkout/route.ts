@@ -13,7 +13,8 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     // ✅ Untuk saat ini, gunakan sandbox key SELALU
-    const secretKey = process.env.XENDIT_SECRET_KEY_SANDBOX;
+    //const secretKey = process.env.XENDIT_SECRET_KEY_SANDBOX;
+    const secretKey = process.env.XENDIT_SECRET_KEY_LIVE;
 
     if (!secretKey) {
       return NextResponse.json(
