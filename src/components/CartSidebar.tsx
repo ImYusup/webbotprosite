@@ -1,3 +1,4 @@
+// ✅ FINAL CartSidebar.tsx (support Xendit + fallback Midtrans)
 // src/components/CartSidebar.tsx
 "use client";
 
@@ -23,18 +24,19 @@ export default function CartSidebar() {
 
     try {
       const payload = {
-        amount: items.reduce(
-          (sum: number, i: CartItem) => sum + i.price * i.quantity,
-          0
-        ),
-        name: "Guest",
-        email: "guest@example.com",
-        productName: items.map((i) => i.title).join(", "),
+        items: items.map((i: CartItem) => ({
+          productId: i.variantId,
+          quantity: i.quantity,
+        })),
+        customer: {
+          name: "Guest",
+          email: "guest@example.com",
+        },
       };
 
       console.log("🛒 Checkout payload:", payload);
 
-      const res = await fetch("/api/create-transaction", {
+      const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -47,16 +49,17 @@ export default function CartSidebar() {
       }
 
       const data = await res.json();
-      console.log("✅ Midtrans response:", data);
+      console.log("✅ API response:", data);
 
-      if (!data?.token) {
-        console.error("❌ Missing transaction token:", data);
-        setLoadingCheckout(false);
+      // ✅ Xendit flow
+      if (data?.invoice_url) {
+        console.log("💳 Redirecting to Xendit invoice:", data.invoice_url);
+        window.location.href = data.invoice_url;
         return;
       }
 
-      // 🔑 Snap.js sudah dimuat dari layout.tsx
-      if (typeof window !== "undefined" && (window as any).snap) {
+      // ✅ Midtrans fallback
+      if (data?.token && typeof window !== "undefined" && (window as any).snap) {
         // @ts-ignore
         window.snap.pay(data.token, {
           onSuccess: (result: any) => {
@@ -77,10 +80,12 @@ export default function CartSidebar() {
             setLoadingCheckout(false);
           },
         });
-      } else {
-        console.error("❌ Snap.js not loaded");
-        setLoadingCheckout(false);
+        return;
       }
+
+      // ❌ Invalid response
+      console.error("❌ Invalid response from API:", data);
+      setLoadingCheckout(false);
     } catch (err) {
       console.error("❌ Checkout failed:", err);
       setLoadingCheckout(false);
@@ -101,7 +106,9 @@ export default function CartSidebar() {
       >
         ×
       </button>
+
       <h2 className="text-lg font-bold mb-4">Keranjang Belanja</h2>
+
       {items.length === 0 ? (
         <p className="text-gray-500">Keranjang masih kosong</p>
       ) : (
@@ -130,6 +137,7 @@ export default function CartSidebar() {
               </li>
             ))}
           </ul>
+
           <div className="mt-4 border-t pt-4">
             <p className="font-bold">Total: {formatRupiah(total)}</p>
             <button
@@ -143,6 +151,7 @@ export default function CartSidebar() {
             >
               {loadingCheckout ? "Memproses..." : "Checkout"}
             </button>
+
             <button
               onClick={clearCart}
               className="mt-2 w-full text-sm text-gray-500 hover:underline"
